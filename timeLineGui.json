@@ -1,0 +1,7 @@
+{
+    "timeline": {
+        "filepath": "D:\\DATA\\quectelL89HD\\L89HD-0114_143531_COM73(V1.trace",
+        "fmt": "[T Debug] time:%f,cycleSlipratio:%f,average CN0:%f,average Elevation:%f,vis satellite number:%f,hDop:%f,pDop:%f,ValidLNum:%f, aveEleOfValid:%f",
+        "columns": ["T", "cSr", "avgCN0", "avgEle", "visSat", "hDop", "pDop", "vLN", "aveEleOfValid"]
+    }
+}
