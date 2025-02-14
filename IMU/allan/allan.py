@@ -130,3 +130,4 @@ def __modify_imu(data):
         else:
             raise ValueError("IMU data error! Please check the input data.should be [Time* GYRX Y Z ACCX Y Z] (Time optional)")
     return data
+
