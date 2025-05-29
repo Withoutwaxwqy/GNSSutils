@@ -1,22 +1,34 @@
 import os
 import numpy as np
 import pandas as pd
-
+import matplotlib.pyplot as plt
 import re
 
 
 class allan:
-    def __init__(self, imufreq, mode="Standard", n=100):
+    def __init__(self, imufreq, mode="Standard", n=100, **kwargs):
+        
         # self.data = data  ----> get data from function not from init
         self.imufreq = imufreq
         self.mode=mode
-        self.tau = []
-        self.sigma = []
+        self.tau = [] # 3xN
+        self.sigma = [] # 3xN
+        self.N = np.zeros(shape=(3))
+        self.B = np.zeros(shape=(3))
 
     def allan(self, data):
         """
         Allan Variance
+        steps:
+        1. comfirm the Tau (auto or manual)
+        2. comfirm the mode (Standard, Overlap, half_overlap, Equal_interval)
+        3. generate the Allan Variance (numba acceleration?) 
+        
         """
+
+
+
+
         self.data = data
         if self.mode == "Standard":
             return self.standard_allan()
@@ -111,6 +123,72 @@ class allan:
         self.tau = tau
         self.sigma = sigma
 
+
+    def calculate_index(self):
+        """
+        Calculate the index
+        N: angle random walk
+        B: bias instability
+        
+        there also several methods to calculate the index
+
+        """
+        pass
+
+    def plot_allan_GYR(self, unit=3600, xscalelim=[1, 1000],yscalelim=[0.1,100],savepath=None):
+        """
+        plot the Allan Variance of Gyroscope in loglog
+        """
+        fig = plt.figure(figsize=(10, 10))
+        ax = fig.add_subplot(111)
+        RGBlist = ["r", "g", "b"]
+        for i in range(3):
+            ax.loglog(self.tau[i, :], self.sigma[i, :]*unit, label="Allan Variance", color = RGBlist[i])
+        ax.set_xlabel("Tau (s)")
+        ax.set_ylabel("Allan Standard deviation [deg/h]")
+        ax.set_title("Gyroscope -- Allan Variance")
+        ax.grid(True, which="both", ls="--")
+        ax.set_xlim((xscalelim[0], xscalelim[1]))
+        ax.set_ylim((yscalelim[0], yscalelim[1]))
+        ax.legend(["GyroX", "GyroY", "GyroZ"])
+
+        if savepath is not None:
+            plt.savefig(savepath, dpi=300)
+        else:
+            plt.show()
+
+
+    def plot_allan_ACC(self, unit=1e6, xscalelim=[1, 1000],yscalelim=[1, 1000],savepath=None):
+        """
+        plot the Allan Variance of Gyroscope in loglog
+        """
+        fig = plt.figure(figsize=(10, 10))
+        ax = fig.add_subplot(111)
+        RGBlist = ["r", "g", "b"]
+        for i in range(3):
+            ax.loglog(self.tau[i, :], self.sigma[i, :]*unit, label="Allan Variance", color = RGBlist[i])
+            # if self.N and self.B exist  plot auxiliary line
+            if self.N[0] != 0:
+                x_aux = np.logspace(1, 3, 100)
+                y_N_au = np.power(10, self.N[i]+0.5)*np.power(x_aux, -0.5)
+                y_B_au = np.power(10, self.B[i])*np.ones_like(x_aux)
+                ax.loglog(x_aux, y_N_au, ":", color = RGBlist[i])
+                ax.loglog(x_aux, y_B_au, "--", color = RGBlist[i])
+                
+
+
+        ax.set_xlabel("Tau (s)")
+        ax.set_ylabel("Allan Standard deviation [ug]")
+        ax.set_title("Accelerometer -- Allan Variance")
+        ax.grid(True, which="both", ls="--")
+        ax.set_xlim((xscalelim[0], xscalelim[1]))
+        ax.set_ylim((yscalelim[0], yscalelim[1]))
+        ax.legend(["AcceX", "AcceY", "AcceZ"])
+
+        if savepath is not None:
+            plt.savefig(savepath, dpi=300)
+        else:
+            plt.show()
 
 
 

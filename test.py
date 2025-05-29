@@ -1,3 +1,11 @@
+'''
+Author: Withoutwaxwqy 2137697992@qq.com
+Date: 2025-01-16 13:34:22
+LastEditors: Withoutwaxwqy 2137697992@qq.com
+LastEditTime: 2025-03-29 22:50:32
+FilePath: \GNSSutils\test.py
+Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+'''
 import utils.jsonConvert
 import utils.logScanf as logScanf
 import GUI.logTimeLine as logTimeLine
@@ -13,7 +21,7 @@ def test():
     if os.path.exists("timeLineGUI.json"):
         json = utils.jsonConvert.read_json_to_dict("timeLineGUI.json")
 
-    json = get.filepath
+    fp = get.filepath
     # fmt = r"ins vel xyz:%f, %f, %f"
     # fmt = r"LS-XYZ:%f,%f,%f VEL:%f,%f,%f"
     fmt = r"[T Debug] time:%f,cycleSlipratio:%f,average CN0:%f,average Elevation:%f,vis satellite number:%f,hDop:%f,pDop:%f,ValidLNum:%f, aveEleOfValid:%f"
@@ -35,6 +43,6 @@ def testanimation():
 
     pass
 if __name__ == '__main__':
-    test()
+    # test()
     testanimation()
     pass

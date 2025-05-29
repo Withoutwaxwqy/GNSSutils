@@ -82,14 +82,14 @@ def quectelRootGetTraceAndJson(root):
     return log_file, json_file
 
 
-def trace2csv(filedict, fmt, index, save_path):
+def trace2csv(filedict, fmt, index, save_path, start_count=0):
     """
     TRACE TO CSV
         * log: string
         * fmt: string
     return: list
     """
-    count = 0
+    count = start_count
     for each in filedict.keys():
         # read time information from json
         scene_time = read_json_to_dict(filedict[each]["json"])
@@ -119,4 +119,6 @@ def trace2csv(filedict, fmt, index, save_path):
                 out.to_csv(os.path.join(save_path, "data{}.csv".format(count)))
                 count += 1
         
-        # end
+        # end 
+
+

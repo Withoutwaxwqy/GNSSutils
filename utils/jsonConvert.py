@@ -17,18 +17,20 @@ def sceneChinese2English(scene_word):
         * scene_word: str
     return: str
     """
-    if "高架" in scene_word:
+    if "高架上" in scene_word:
         scene = "elevated"
     elif "隧道" in scene_word:
         scene = "tunnel"
+    elif "高速" in scene_word:
+        scene = "highWay"
     elif "下穿" in scene_word:
         scene = "underPass"
     elif "林荫" in scene_word or "荫道" in scene_word:
         scene = "forest"
-    elif "高架上" in scene_word:
-        scene = "elevated"
     elif "高架下" in scene_word:
         scene = "underElevated"
+    elif "高架" in scene_word:
+        scene = "elevated"
     elif "开阔" in scene_word:
         scene = "openSky"
     elif "车库" in scene_word:
